@@ -65,7 +65,7 @@ class TestBeautifulSoup(unittest.TestCase):
         self.assertEqual(str(self.soup), "<head><title>The Dormouse's "
                                          "story</title></head>")
 
-        # Wrap string within one tag
+        # Unwrap string within one tag
         self.soup = bs4.BeautifulSoup("<p><b>I don't want to be bold</b></p>",
                                       'html.parser')
         self.soup.b.unwrap()
@@ -128,10 +128,16 @@ class TestBeautifulSoup(unittest.TestCase):
         self.soup_empty_2 = bs4.BeautifulSoup(self.html_empty_2, 'html.parser')
         self.assertEqual(self.soup_empty_2.html.string, None)
 
-        '''
+        """
         PageElement.replace_with() removes a tag or string from the tree, 
         and replaces it with the tag or string of your choice.
-        '''
+        """
+        """Replace this PageElement with another one, keeping the rest of the
+        tree the same.
+
+        :param replace_with: A PageElement.
+        :return: `self`, no longer part of the tree.
+        """
 
     def test_string_replace_with_strings(self):
         # Replace a string within a b-tag
@@ -200,6 +206,21 @@ class TestBeautifulSoup(unittest.TestCase):
         self.new_tag.string = "I became Bold again"
         self.soup.b.replace_with(self.new_tag)
         self.assertEqual(str(self.soup), "<b>I became Bold again</b>")
+
+    def testing(self):
+        self.head_tag = self.soup.head
+        #print(self.head_tag)
+        # <head><title>The Dormouse's story</title></head>
+
+        #print(self.head_tag.contents)
+        # [<title>The Dormouse's story</title>]
+
+        print(len(self.head_tag.contents))
+        self.title_tag = self.head_tag.contents[0]
+        #print(self.title_tag)
+        # <title>The Dormouse's story</title>
+        #print(self.title_tag.contents)
+        # ['The Dormouse's story']
 
 
 if __name__ == '__main__':
